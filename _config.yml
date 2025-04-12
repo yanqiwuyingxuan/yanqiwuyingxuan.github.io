@@ -1,0 +1,14 @@
+title: 不凝不弃
+description: 记录技术与生活思考
+baseurl: ""
+url: "https://<你的用户名>.github.io"
+lang: zh-CN
+theme: minima
+markdown: kramdown
+
+# 导航栏
+nav:
+  - name: 首页
+    url: /
+  - name: 关于
+    url: /about
