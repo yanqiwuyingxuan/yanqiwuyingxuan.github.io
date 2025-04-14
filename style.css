@@ -7,12 +7,12 @@
 }
 
 body {
-  background-color: #ECE0D4; /* 莫兰迪色系背景色示例 */
+  background-color: #D9CEE5; /* 莫兰迪色系背景色示例 */
   color: #444444; /* 文字颜色 */
 }
 
 header {
-  background-color: #C7B5A8; /* 头部背景色示例 */
+  background-color: #9F8CC1; /* 头部背景色示例 */
   text-align: center;
   padding: 20px;
 }
@@ -35,7 +35,7 @@ footer {
   background-color: #C7B5A8;
   text-align: center;
   padding: 10px;
-  color: pink;
+  color: white;
 }
 .top-nav {
   background: #D9CEE5; /* 莫兰迪色系的浅紫色背景色示例 */
