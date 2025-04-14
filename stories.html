@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<body>
+  <!-- 投稿区 -->
+  <div class="editor">
+    <h2>写故事</h2>
+    <input type="text" id="storyTitle" placeholder="故事标题">
+    <textarea id="storyContent"></textarea>
+    <button onclick="saveStory()">发布故事</button>
+  </div>
+
+  <!-- 展示区 -->
+  <div id="storyList"></div>
+
+  <script>
+    // 加载已有故事
+    function loadStories() {
+      const stories = JSON.parse(localStorage.getItem('storyEntries')) || [];
+      const html = stories.map(story => `
+        <div class="story-item">
+          <h3>${story.title}</h3>
+          <div class="meta">
+            <span class="date">${new Date(story.timestamp).toLocaleDateString()}</span>
+          </div>
+          <p>${story.content}</p>
+        </div>
+      `).join('');
+      document.getElementById('storyList').innerHTML = html;
+    }
+
+    // 保存新故事
+    function saveStory() {
+      const title = document.getElementById('storyTitle').value;
+      const content = document.getElementById('storyContent').value;
+      
+      const newEntry = {
+        title: title,
+        content: content,
+        timestamp: Date.now()
+      };
+      
+      const existing = JSON.parse(localStorage.getItem('storyEntries')) || [];
+      existing.push(newEntry);
+      localStorage.setItem('storyEntries', JSON.stringify(existing));
+      
+      document.getElementById('storyTitle').value = '';
+      document.getElementById('storyContent').value = '';
+      loadStories(); // 刷新列表
+    }
+
+    // 初始化加载
+    loadStories();
+  </script>
+</body>
+</html>
