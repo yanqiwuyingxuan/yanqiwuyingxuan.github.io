@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<body>
+  <!-- 日记编写区 -->
+  <div class="editor">
+    <h2>写日记</h2>
+    <textarea id="diaryContent"></textarea>
+    <button onclick="saveDiary()">保存日记</button>
+  </div>
+
+  <!-- 日记展示区 -->
+  <div id="diaryList"></div>
+
+  <script>
+    // 加载已有日记
+    function loadDiaries() {
+      const diaries = JSON.parse(localStorage.getItem('diaryEntries')) || [];
+      const html = diaries.map(diary => `
+        <div class="diary-item">
+          <div class="date">${new Date(diary.timestamp).toLocaleDateString()}</div>
+          <p>${diary.content}</p>
+        </div>
+      `).join('');
+      document.getElementById('diaryList').innerHTML = html;
+    }
+
+    // 保存新日记
+    function saveDiary() {
+      const content = document.getElementById('diaryContent').value;
+      const newEntry = {
+        content: content,
+        timestamp: Date.now()
+      };
+      
+      const existing = JSON.parse(localStorage.getItem('diaryEntries')) || [];
+      existing.push(newEntry);
+      localStorage.setItem('diaryEntries', JSON.stringify(existing));
+      
+      document.getElementById('diaryContent').value = '';
+      loadDiaries(); // 刷新列表
+    }
+
+    // 初始化加载
+    loadDiaries();
+  </script>
+</body>
+</html>
