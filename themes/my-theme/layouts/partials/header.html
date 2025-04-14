@@ -1,0 +1,17 @@
+<header>
+  <nav>
+    <a href="/">不凝不弃</a>
+    <div id="auth-box">
+      <div id="auth-form">
+        <input type="email" id="email" placeholder="邮箱">
+        <input type="password" id="password" placeholder="密码">
+        <button id="btn-signup">注册</button>
+        <button id="btn-login">登录</button>
+      </div>
+      <div id="user-info" style="display:none;">
+        欢迎, <span id="user-email"></span>
+        <button onclick="firebase.auth().signOut()">退出</button>
+      </div>
+    </div>
+  </nav>
+</header>
