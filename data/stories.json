@@ -1,0 +1,19 @@
+// 管理员发布故事时自动更新数据
+function generateStory() {
+    // ...原有生成逻辑...
+    
+    // 同时更新展示数据
+    const storyData = {
+        title: title,
+        content: content,
+        date: new Date().toISOString()
+    };
+
+    // 添加到JSON列表
+    const existingStories = JSON.parse(localStorage.getItem('publishedStories')) || [];
+    existingStories.push(storyData);
+    localStorage.setItem('publishedStories', JSON.stringify(existingStories));
+    
+    // 触发文件下载（真实场景应通过静态生成器生成）
+    downloadFile('data/stories.json', JSON.stringify(existingStories));
+}
