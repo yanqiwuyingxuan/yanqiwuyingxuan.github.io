@@ -37,3 +37,12 @@ footer {
   padding: 10px;
   color: pink;
 }
+.top-nav {
+  background: #C7B5A8; /* 莫兰迪色系的浅棕色背景色示例 */
+  padding: 1rem;
+}
+.top-nav a {
+  color: #444444; /* 深灰色的文字颜色，更柔和 */
+  text-decoration: none;
+  margin-right: 2rem;
+}
