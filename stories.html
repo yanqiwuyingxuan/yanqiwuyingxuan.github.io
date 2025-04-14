@@ -1,55 +1,103 @@
 <!DOCTYPE html>
 <html>
+<head>
+    <title>故事长廊 | 静夜故事集</title>
+    <style>
+        /* 专业展示样式 */
+        .story-gallery {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 20px;
+        }
+
+        .story-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+            margin: 2rem 0;
+            padding: 2.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .story-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .story-title {
+            color: #2c3e50;
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .story-title::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: #3498db;
+        }
+
+        .story-meta {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .story-content {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #34495e;
+            white-space: pre-wrap;
+        }
+
+        /* 响应式布局 */
+        @media (min-width: 768px) {
+            .story-gallery {
+                display: grid;
+                grid-gap: 2rem;
+                grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            }
+            
+            .story-card {
+                margin: 0;
+            }
+        }
+    </style>
+</head>
 <body>
-  <!-- 投稿区 -->
-  <div class="editor">
-    <h2>写故事</h2>
-    <input type="text" id="storyTitle" placeholder="故事标题">
-    <textarea id="storyContent"></textarea>
-    <button onclick="saveStory()">发布故事</button>
-  </div>
+    <!-- 导航栏仅保留必要入口 -->
+    <nav class="main-nav">
+        <a href="/">首页</a>
+        <a href="/stories.html" class="active">故事集</a>
+    </nav>
 
-  <!-- 展示区 -->
-  <div id="storyList"></div>
+    <div class="story-gallery" id="storyGallery"></div>
 
-  <script>
-    // 加载已有故事
-    function loadStories() {
-      const stories = JSON.parse(localStorage.getItem('storyEntries')) || [];
-      const html = stories.map(story => `
-        <div class="story-item">
-          <h3>${story.title}</h3>
-          <div class="meta">
-            <span class="date">${new Date(story.timestamp).toLocaleDateString()}</span>
-          </div>
-          <p>${story.content}</p>
-        </div>
-      `).join('');
-      document.getElementById('storyList').innerHTML = html;
-    }
+    <script>
+        // 加载静态故事数据（需预先通过管理后台生成）
+        function loadStories() {
+            fetch('/data/stories.json')
+                .then(response => response.json())
+                .then(stories => {
+                    const html = stories.map(story => `
+                        <article class="story-card">
+                            <h2 class="story-title">${story.title}</h2>
+                            <div class="story-meta">
+                                <time>${new Date(story.date).toLocaleDateString('zh-CN')}</time>
+                            </div>
+                            <div class="story-content">${story.content}</div>
+                        </article>
+                    `).join('');
+                    
+                    document.getElementById('storyGallery').innerHTML = html;
+                });
+        }
 
-    // 保存新故事
-    function saveStory() {
-      const title = document.getElementById('storyTitle').value;
-      const content = document.getElementById('storyContent').value;
-      
-      const newEntry = {
-        title: title,
-        content: content,
-        timestamp: Date.now()
-      };
-      
-      const existing = JSON.parse(localStorage.getItem('storyEntries')) || [];
-      existing.push(newEntry);
-      localStorage.setItem('storyEntries', JSON.stringify(existing));
-      
-      document.getElementById('storyTitle').value = '';
-      document.getElementById('storyContent').value = '';
-      loadStories(); // 刷新列表
-    }
-
-    // 初始化加载
-    loadStories();
-  </script>
+        // 初始化加载
+        window.addEventListener('DOMContentLoaded', loadStories);
+    </script>
 </body>
 </html>
