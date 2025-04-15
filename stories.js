@@ -21,3 +21,29 @@ function publishArticle() {
   const sanitizedContent = sanitizeHTML(contentHTML);
   // ...原有保存逻辑...
 }
+if (file.size > 2 * 1024 * 1024) {
+  alert('图片大小不能超过2MB');
+  return;
+}
+const editorContent = document.getElementById('articleContent');
+editorContent.addEventListener('dragover', (e) => {
+  e.preventDefault();
+  e.currentTarget.style.backgroundColor = '#f0f8ff';
+});
+
+editorContent.addEventListener('drop', (e) => {
+  e.preventDefault();
+  const file = e.dataTransfer.files;
+  // 调用上传逻辑...
+});
+editorContent.addEventListener('paste', (e) => {
+  const items = e.clipboardData.items;
+  for (const item of items) {
+    if (item.type.startsWith('image/')) {
+      const blob = item.getAsFile();
+      const reader = new FileReader();
+      reader.onload = (evt) => insertImage(evt.target.result);
+      reader.readAsDataURL(blob);
+    }
+  }
+});
