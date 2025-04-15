@@ -144,3 +144,192 @@
     </script>
 </body>
 </html>
+<style>
+/* 基础重置 */
+.editor-container * {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
+/* 容器样式 */
+.editor-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.08);
+  padding: 2rem;
+}
+
+/* 标题输入区 */
+.editor-title {
+  width: 100%;
+  padding: 1.2rem;
+  font-size: 2rem;
+  border: none;
+  border-bottom: 2px solid #e0e0e0;
+  margin-bottom: 1.5rem;
+  transition: all 0.3s ease;
+  color: #2d3436;
+}
+
+.editor-title:focus {
+  outline: none;
+  border-color: #0984e3;
+  box-shadow: 0 4px 6px rgba(9, 132, 227, 0.1);
+}
+
+.editor-title::placeholder {
+  color: #b2bec3;
+}
+
+/* 富文本编辑器核心区 */
+.editor-content {
+  min-height: 400px;
+  padding: 1.5rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #2d3436;
+  background: #f8f9fa;
+  transition: border-color 0.3s ease;
+}
+
+.editor-content:focus {
+  outline: none;
+  border-color: #0984e3;
+  box-shadow: 0 0 0 3px rgba(9, 132, 227, 0.1);
+}
+
+/* 工具栏样式 */
+.editor-toolbar {
+  display: flex;
+  gap: 0.5rem;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 6px;
+  margin-bottom: 1.5rem;
+}
+
+.toolbar-button {
+  padding: 0.5rem 1rem;
+  border: 1px solid #e0e0e0;
+  background: white;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.toolbar-button:hover {
+  background: #0984e3;
+  color: white;
+  border-color: transparent;
+}
+
+/* 分类选择器 */
+.editor-category {
+  width: 200px;
+  padding: 0.8rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  margin-top: 1.5rem;
+  appearance: none;
+  background: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e") 
+    no-repeat right 0.8rem center/1.2rem;
+}
+
+/* 操作按钮组 */
+.editor-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.save-button {
+  padding: 0.8rem 2rem;
+  background: #0984e3;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.save-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(9, 132, 227, 0.3);
+}
+
+.preview-button {
+  padding: 0.8rem 2rem;
+  background: #ffffff;
+  border: 1px solid #0984e3;
+  color: #0984e3;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* 字数统计 */
+.word-count {
+  margin-top: 1rem;
+  color: #636e72;
+  font-size: 0.9rem;
+  text-align: right;
+}
+
+/* 暗黑模式支持 */
+@media (prefers-color-scheme: dark) {
+  .editor-container {
+    background: #2d3436;
+    color: #ffffff;
+  }
+  
+  .editor-title {
+    background: #2d3436;
+    color: #ffffff;
+    border-color: #4a4a4a;
+  }
+  
+  .editor-content {
+    background: #252a2c;
+    border-color: #4a4a4a;
+    color: #ffffff;
+  }
+  
+  .toolbar-button {
+    background: #3c4245;
+    border-color: #4a4a4a;
+    color: #ffffff;
+  }
+}
+</style>
+
+<!-- 编辑器HTML结构 -->
+<div class="editor-container">
+  <input type="text" class="editor-title" placeholder="输入文章标题...">
+  
+  <div class="editor-toolbar">
+    <button class="toolbar-button">B</button>
+    <button class="toolbar-button">I</button>
+    <button class="toolbar-button">U</button>
+    <button class="toolbar-button">链接</button>
+  </div>
+  
+  <div class="editor-content" contenteditable="true"></div>
+  
+  <select class="editor-category">
+    <option>选择分类</option>
+    <option>技术文章</option>
+    <option>生活随笔</option>
+  </select>
+  
+  <div class="word-count">字数：0</div>
+  
+  <div class="editor-actions">
+    <button class="save-button">立即发布</button>
+    <button class="preview-button">预览效果</button>
+  </div>
+</div>
