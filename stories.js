@@ -1,3 +1,30 @@
+// 图片上传处理函数
+function handleImageUpload(event) {
+  const file = event.target.files;
+  
+  // 创建预览
+  const preview = document.getElementById('preview');
+  preview.innerHTML = '';
+  
+  const img = new Image();
+  img.onload = () => URL.revokeObjectURL(img.src); // 释放内存
+  img.src = URL.createObjectURL(file);
+  img.style.maxWidth = '100%';
+  
+  preview.appendChild(img);
+  
+  // 上传服务器逻辑
+  const formData = new FormData();
+  formData.append('image', file);
+  fetch('/upload', { method: 'POST', body: formData });
+}
+
+// 初始化事件监听
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('uploader')
+    .addEventListener('change', handleImageUpload);
+});
+
 document.getElementById('imageUpload').addEventListener('change', function(e) {
   const file = e.target.files;
   if (!file.type.startsWith('image/')) return;
