@@ -1,47 +1,235 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>恋爱日记 - 不凝不弃</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto+Mono:wght@300;500&display=swap" rel="stylesheet>
+    <style>
+        /* ===== 核心赛博风格 ===== */
+        :root {
+            --neon-blue: #00f7ff;
+            --matrix-green: #0f0;
+            --cyber-dark: #001219;
+            --hologram-pink: #ff00ff;
+        }
+
+        body {
+            background: linear-gradient(45deg, #000318 0%, #001d3d 100%);
+            color: var(--neon-blue);
+            font-family: 'Roboto Mono', monospace;
+            line-height: 1.8;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        /* === 全息投影效果 === */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 247, 255, 0.05) 0px,
+                rgba(0, 247, 255, 0.05) 1px,
+                transparent 1px,
+                transparent 3px
+            );
+            pointer-events: none;
+            z-index: -1;
+            animation: scan 2s linear infinite;
+        }
+
+        @keyframes scan {
+            from { transform: translateY(-100%); }
+            to { transform: translateY(100%); }
+        }
+
+        /* === 编辑面板 === */
+        .editor-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            border: 2px solid var(--neon-blue);
+            box-shadow: 0 0 30px rgba(0, 247, 255, 0.2);
+            background: rgba(0, 18, 25, 0.9);
+            padding: 2rem;
+            position: relative;
+        }
+
+        h2 {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--hologram-pink);
+            border-left: 3px solid var(--matrix-green);
+            padding-left: 1rem;
+            margin-bottom: 2rem;
+            text-shadow: 0 0 10px rgba(255, 0, 255, 0.5);
+        }
+
+        /* === 输入区域 === */
+        #diaryContent {
+            width: 100%;
+            height: 200px;
+            background: rgba(0, 30, 45, 0.8);
+            border: 1px solid var(--neon-blue);
+            color: var(--matrix-green);
+            padding: 1rem;
+            font-size: 1.1rem;
+            resize: vertical;
+            transition: box-shadow 0.3s ease;
+        }
+
+        #diaryContent:focus {
+            outline: none;
+            box-shadow: 0 0 20px rgba(0, 247, 255, 0.3);
+        }
+
+        /* === 保存按钮 === */
+        button {
+            background: linear-gradient(45deg, #003d5c, #001a2d);
+            border: 1px solid var(--neon-blue);
+            color: var(--neon-blue);
+            padding: 0.8rem 2rem;
+            font-family: 'Orbitron', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        button:hover {
+            background: linear-gradient(45deg, #004d7a, #002b4d);
+            box-shadow: 0 0 20px rgba(0, 247, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent 25%,
+                rgba(0, 247, 255, 0.1) 50%,
+                transparent 75%
+            );
+            animation: buttonGlow 3s infinite linear;
+        }
+
+        @keyframes buttonGlow {
+            100% { transform: rotate(360deg); }
+        }
+
+        /* === 日记列表 === */
+        #diaryList {
+            max-width: 800px;
+            margin: 3rem auto;
+            display: grid;
+            gap: 2rem;
+        }
+
+        .diary-item {
+            background: rgba(0, 30, 45, 0.8);
+            border: 1px solid var(--neon-blue);
+            padding: 2rem;
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+
+        .diary-item:hover {
+            transform: translateX(10px);
+            box-shadow: 5px 5px 20px rgba(0, 247, 255, 0.2);
+        }
+
+        .date {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--hologram-pink);
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .date::after {
+            content: '';
+            position: absolute;
+            bottom: -0.5rem;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: var(--matrix-green);
+        }
+
+        .diary-item p {
+            color: rgba(0, 247, 255, 0.8);
+            line-height: 1.6;
+            white-space: pre-wrap;
+        }
+
+        /* === 响应式设计 === */
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            
+            .editor-container,
+            #diaryList {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
 <body>
-  <!-- 日记编写区 -->
-  <div class="editor">
-    <h2>写日记</h2>
-    <textarea id="diaryContent"></textarea>
-    <button onclick="saveDiary()">保存日记</button>
-  </div>
+    <!-- 日记编写区 -->
+    <div class="editor-container">
+        <h2>记忆体写入协议</h2>
+        <textarea id="diaryContent" placeholder="输入神经脉冲信号..."></textarea>
+        <button onclick="saveDiary()">█ 存储到核心记忆 █</button>
+    </div>
 
-  <!-- 日记展示区 -->
-  <div id="diaryList"></div>
+    <!-- 日记展示区 -->
+    <div id="diaryList"></div>
 
-  <script>
-    // 加载已有日记
-    function loadDiaries() {
-      const diaries = JSON.parse(localStorage.getItem('diaryEntries')) || [];
-      const html = diaries.map(diary => `
-        <div class="diary-item">
-          <div class="date">${new Date(diary.timestamp).toLocaleDateString()}</div>
-          <p>${diary.content}</p>
-        </div>
-      `).join('');
-      document.getElementById('diaryList').innerHTML = html;
-    }
+    <script>
+        // 加载已有日记
+        function loadDiaries() {
+            const diaries = JSON.parse(localStorage.getItem('diaryEntries')) || [];
+            const html = diaries.map(diary => `
+                <div class="diary-item">
+                    <div class="date">记忆存档日期：${new Date(diary.timestamp).toLocaleDateString('zh-CN')}</div>
+                    <p>${diary.content}</p>
+                </div>
+            `).join('');
+            document.getElementById('diaryList').innerHTML = html;
+        }
 
-    // 保存新日记
-    function saveDiary() {
-      const content = document.getElementById('diaryContent').value;
-      const newEntry = {
-        content: content,
-        timestamp: Date.now()
-      };
-      
-      const existing = JSON.parse(localStorage.getItem('diaryEntries')) || [];
-      existing.push(newEntry);
-      localStorage.setItem('diaryEntries', JSON.stringify(existing));
-      
-      document.getElementById('diaryContent').value = '';
-      loadDiaries(); // 刷新列表
-    }
+        // 保存新日记
+        function saveDiary() {
+            const content = document.getElementById('diaryContent').value;
+            if (!content.trim()) {
+                alert('记忆体内容为空！');
+                return;
+            }
 
-    // 初始化加载
-    loadDiaries();
-  </script>
+            const newEntry = {
+                content: content,
+                timestamp: Date.now()
+            };
+
+            const existing = JSON.parse(localStorage.getItem('diaryEntries')) || [];
+            existing.unshift(newEntry); // 新的日记显示在最前面
+            localStorage.setItem('diaryEntries', JSON.stringify(existing));
+
+            document.getElementById('diaryContent').value = '';
+            loadDiaries();
+        }
+
+        // 初始化加载
+        loadDiaries();
+    </script>
 </body>
 </html>
