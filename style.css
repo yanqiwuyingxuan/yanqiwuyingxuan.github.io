@@ -1,4 +1,14 @@
 /* 全局样式设置 */
+:root {
+  --base-font-size: calc(14px + 0.2vw); /* 动态字体 */
+}
+
+.container {
+  padding: 2rem; /* 1rem = 16px */
+  margin: 0 auto;
+  max-width: 1200px;
+}
+
 * {
   margin: 0;
   padding: 0;
