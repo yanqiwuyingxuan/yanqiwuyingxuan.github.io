@@ -15,3 +15,9 @@ function insertImage(base64) {
   img.style.maxWidth = '100%';
   document.getElementById('articleContent').appendChild(img);
 }
+function publishArticle() {
+  const contentHTML = document.getElementById('articleContent').innerHTML;
+  // 保存到localStorage时需进行XSS过滤
+  const sanitizedContent = sanitizeHTML(contentHTML);
+  // ...原有保存逻辑...
+}
