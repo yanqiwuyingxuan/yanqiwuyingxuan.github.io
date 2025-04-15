@@ -47,3 +47,12 @@ editorContent.addEventListener('paste', (e) => {
     }
   }
 });
+const lazyLoad = () => {
+  document.querySelectorAll('img[data-src]').forEach(img => {
+    if (img.getBoundingClientRect().top < window.innerHeight) {
+      img.src = img.dataset.src;
+      img.removeAttribute('data-src');
+    }
+  });
+};
+window.addEventListener('scroll', lazyLoad);
