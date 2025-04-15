@@ -81,6 +81,19 @@
         </div>
         <button class="publish-btn" onclick="publishArticle()">立即发布</button>
 <div class="editor-toolbar">
+    <!DOCTYPE html>
+<html>
+<head>
+  <title>图片上传示例</title>
+  <!-- 推荐放在head中并使用defer -->
+  <script src="stories.js" defer></script>
+</head>
+<body>
+  <input type="file" id="uploader" accept="image/*">
+  <div id="preview" style="border: 2px dashed #ccc; padding: 20px"></div>
+</body>
+</html>
+
   <button type="button" class="toolbar-button" onclick="document.getElementById('imageUpload').click()">插入图片</button>
   <input type="file" id="imageUpload" accept="image/*" hidden>
 </div>
