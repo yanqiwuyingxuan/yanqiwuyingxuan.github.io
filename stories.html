@@ -80,6 +80,11 @@
             <textarea id="articleContent" placeholder="开始撰写你的内容..."></textarea>
         </div>
         <button class="publish-btn" onclick="publishArticle()">立即发布</button>
+<div class="editor-toolbar">
+  <button type="button" class="toolbar-button" onclick="document.getElementById('imageUpload').click()">插入图片</button>
+  <input type="file" id="imageUpload" accept="image/*" hidden>
+</div>
+
     </div>
 
     <!-- 文章列表 -->
